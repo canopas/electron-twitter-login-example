@@ -1,0 +1,22 @@
+{
+  "name": "electron-twitter-login-example",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Electron",
+    "twitter",
+    "login",
+    "example"
+  ],
+  "author": "cp-sumi-k",
+  "devDependencies": {
+    "electron": "^11.2.1"
+  },
+  "dependencies": {
+    "firebase": "^8.2.6",
+    "node-twitter-api": "^1.8.0"
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <title>Electron Twitter Login Example</title>
+</head>
+
+<body>
+
+<div>
+    <div class="container">
+        <div class="row text-center card">
+            <button class="btn twitter-button" onclick="twitterLogin()"> Twitter Login </button>
+            </br>
+            <div class="email"></div>
+        </div>
+    </div>
+
+</div>
+<script src="assets/js/jquery.js"></script>
+<script>
+    const {ipcRenderer} = require('electron');
+
+    function twitterLogin() {
+        ipcRenderer.send("do-twitter-login");
+        ipcRenderer.on("twitter-login", (event, response) => {
+            if (!response.error) {
+                var credential = window.firebase.auth.TwitterAuthProvider.credential(
+                    response.accessToken,
+                    response.accessTokenSecret
+                );
+                window.firebase.auth().signInWithCredential(credential)
+                    .then((result) => {
+                        $(".email").html(result.user.email)
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
+        });
+    }
+</script>
+
+</body>
+
+
+</html>
