@@ -48,7 +48,10 @@ app.on('activate', function () {
     }
 })
 
+//twitter login event
 ipcMain.on("do-twitter-login", (event, arg) => {
+
+    //initialize twitter api using credentials
     const twitter = new twitterAPI({
         consumerKey: config.twitter.consumerKey,
         consumerSecret: config.twitter.consumerSecret,
@@ -76,6 +79,9 @@ ipcMain.on("do-twitter-login", (event, arg) => {
         accessToken,
         accessTokenSecret
 
+    /* obtaining requestToken and secret.
+    using requestToken, we can redirect to authorized url */
+
     twitter.getRequestToken((auth_error, token, tokenSecret) => {
         if (auth_error) {
             console.log("Error getting OAuth request token : ", JSON.stringify(auth_error));
@@ -87,6 +93,7 @@ ipcMain.on("do-twitter-login", (event, arg) => {
     });
 
     const handleUrl = function (url) {
+        //getting verifier from authorized url
         let raw_auth_verifier = /oauth_verifier=([^&]*)/.exec(url) || null;
         auth_verifier =
             raw_auth_verifier && raw_auth_verifier.length > 1
@@ -97,6 +104,9 @@ ipcMain.on("do-twitter-login", (event, arg) => {
 
         if (auth_verifier) {
             closedByUser = false;
+
+            /*From verifier and requestToken, getting oAuthToken and oAuthSecret,
+            using this token and secret, we can sign in to twitter */
             twitter.getAccessToken(
                 requestToken,
                 requestTokenSecret,

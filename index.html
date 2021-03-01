@@ -29,6 +29,7 @@
         ipcRenderer.send("do-twitter-login");
         ipcRenderer.on("twitter-login", (event, response) => {
             if (!response.error) {
+                //obtaining credential from oAuthToken and oAuthSecret using firebase
                 var credential = window.firebase.auth.TwitterAuthProvider.credential(
                     response.accessToken,
                     response.accessTokenSecret

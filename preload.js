@@ -1,3 +1,5 @@
+//initialize firebase when app load
+
 const config = require("./config");
 const firebase = require('firebase/app');
 require("firebase/auth")
